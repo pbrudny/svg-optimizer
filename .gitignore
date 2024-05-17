@@ -1,0 +1,4 @@
+# Ignore the input file
+input_file.html
+# Ignore the output file created by the script
+updated_file.html

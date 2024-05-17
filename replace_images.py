@@ -1,4 +1,6 @@
 import re
+import sys
+import os
 from base64 import b64decode, b64encode
 
 def extract_svg_dimensions(svg_data):
@@ -26,17 +28,31 @@ def replace_data_images(html_content):
     
     return html_content
 
-# Read the HTML content from a file
-input_file = 'input_file.html'  # Replace with your input file path
-with open(input_file, 'r', encoding='utf-8') as file:
-    html_content = file.read()
+def main():
+    # Check if an input file path is provided as an argument
+    if len(sys.argv) > 1:
+        input_file = sys.argv[1]
+    else:
+        input_file = 'input_file.html'
+    
+    # Check if the file exists
+    if not os.path.exists(input_file):
+        print(f"Error: The file {input_file} does not exist.")
+        return
 
-# Process the HTML content
-updated_html_content = replace_data_images(html_content)
+    # Read the HTML content from the file
+    with open(input_file, 'r', encoding='utf-8') as file:
+        html_content = file.read()
 
-# Save the updated HTML content to a new file
-output_file = 'updated_file.html'  # Replace with your output file path
-with open(output_file, 'w', encoding='utf-8') as file:
-    file.write(updated_html_content)
+    # Process the HTML content
+    updated_html_content = replace_data_images(html_content)
 
-print("Data images replaced successfully!")
+    # Save the updated HTML content to a new file
+    output_file = 'updated_file.html'
+    with open(output_file, 'w', encoding='utf-8') as file:
+        file.write(updated_html_content)
+
+    print(f"Data images replaced successfully! Updated file saved as {output_file}")
+
+if __name__ == "__main__":
+    main()
